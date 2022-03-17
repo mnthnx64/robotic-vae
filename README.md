@@ -35,10 +35,15 @@ The model can be seperated into two parts:
 ## Estimates:
 | Task              | Time required | Assignee | Current Status |
 |-------------------|---------------|----------|----------------|
-| Model VAE         | 1 day         | Manthan  | in progress    | 
+| Model VAE         | 1 day         | Manthan  | in progress    |
 | Model Classifier  | 1 day         | Sowmith  | in progress    |
-| Train             | 3 days        |          |                | 
-| Validate          | 1 day         |          |                | 
-| Hand Recognition  | 3 days        |          |                | 
+| Train             | 3 days        |          |                |
+| Validate          | 1 day         |          |                |
+| Hand Recognition  | 3 days        |          |                |
 
-
+-----------
+## Questions to Answer with Reason:
+- Justify the layers of the model
+- How to train the model?
+  - Train the VAE first and then the classifer or
+  - Train both VAE and classifer simultaneously?
