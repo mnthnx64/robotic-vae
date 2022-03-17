@@ -4,6 +4,11 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 
 class VAE(nn.Module):
+    """
+    TODO: 
+    - Construct the encoder to output 20x1 array
+    - Same application for decoder.
+    """
     def __init__(self, x_dim, h_dim1, h_dim2, z_dim):
         super(VAE, self).__init__()
         
