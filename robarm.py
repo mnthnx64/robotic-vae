@@ -1,5 +1,5 @@
 import gym
-from time import time
+from time import time, sleep
 import numpy as np
 
 env = gym.make('HandReach-v0')
@@ -7,13 +7,8 @@ obs = env.reset()
 done = False
 
 def policy(observation, desired_goal):
-    # Here you would implement your smarter policy. In this case,
-    # we just sample random actions.
     return env.action_space.sample()
 
-
-arr = np.zeros((20))
-count = 0
 
 """
 Array:
@@ -39,13 +34,13 @@ Array:
 19: Z-thumb.j2
 """
 
-while count != 1000:
+arr = np.ones((20))
+count = 0
+
+while count != 100:
     action = policy(obs['observation'], obs['desired_goal'])
-    # arr[0] = np.random.randn() 
-    # arr[1] = np.random.randn()
-    # arr[2] = np.random.randn()
-    arr[12] = np.random.randn()
-    # arr[4] = np.random.randn()
+    
+    arr = np.random.randn(20)
     obs, reward, done, info = env.step(arr)
     env.render()
     # If we want, we can substitute a goal here and re-compute
@@ -57,5 +52,6 @@ while count != 1000:
     # print('reward is {}, substitute_reward is {}'.format(
     #     reward, substitute_reward))
     count += 1
+
 
 env.close()

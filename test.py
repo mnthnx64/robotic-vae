@@ -6,6 +6,7 @@ from torchvision.utils import save_image
 vae = VAE(x_dim=784, h_dim1= 512, h_dim2=256, z_dim=2)
 vae.load_state_dict(torch.load('runs/train/model.pth'))
 
+# Draw the number
 with torch.no_grad():
     z = torch.randn(10, 2)
     print(z)
