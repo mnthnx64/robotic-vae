@@ -33,14 +33,17 @@ Array:
 18: Z-thumb.j1
 19: Z-thumb.j2
 """
-
-arr = np.ones((20))
+maps = [0, 1, 2, 5, 8, 11, 12]
+arr = np.ones((20)) * -1
 count = 0
 
 while count != 100:
     action = policy(obs['observation'], obs['desired_goal'])
-    
-    arr = np.random.randn(20)
+    #Generate random number between -1 and 1 of size 20
+    arr = np.random.uniform(-1, 1, 20)
+    # arr[19] = np.random.random()
+    for i in maps:
+        arr[i] = 0
     obs, reward, done, info = env.step(arr)
     env.render()
     # If we want, we can substitute a goal here and re-compute

@@ -26,7 +26,7 @@ train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=BAT
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=BATCH_SIZE, shuffle=False)
 
 
-vae = VAE(x_dim=784, h_dim1= 512, h_dim2=256, z_dim=2)
+vae = VAE(x_dim=784, h_dim1= 512, h_dim2=256, z_dim=13)
 if RESUME:
     vae.load_state_dict(torch.load(SAVE_DIR + "model.pth"))
 if torch.cuda.is_available():
@@ -61,7 +61,7 @@ def train(epoch):
         path = os.path.join(SAVE_DIR, 'model.pth')
         torch.save(vae.cpu().state_dict(), path) # saving model
         with torch.no_grad():
-            z = torch.randn(64, 2)
+            z = torch.randn(64, 13)
             sample = vae.decoder(z)
             
             save_image(sample.view(64, 1, 28, 28), SAVE_DIR + 'Sample_%s.png' % epoch)
