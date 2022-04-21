@@ -47,3 +47,7 @@ The model can be seperated into two parts:
 - How to train the model?
   - Train the VAE first and then the classifer or
   - Train both VAE and classifer simultaneously?
+
+## Training Pipeline
+Train the VAE first
+Use the VAE's encoder and the classifer to train the classifer
