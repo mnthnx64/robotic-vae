@@ -46,14 +46,9 @@ class VAE(nn.Module):
         return torch.sigmoid(self.fc6(h)) 
     
     def forward(self, x):
-        print(x.size())
         mu, log_var = self.encoder(x.view(-1, 784))
         z = self.sampling(mu, log_var)
         return self.decoder(z), mu, log_var
-    def encode_classifier(self, x):
-        mu, log_var = self.encoder(x.view(-1, 784))
-        z = self.sampling(mu, log_var)
-        return z
 
 
 class Classifier(nn.Module):

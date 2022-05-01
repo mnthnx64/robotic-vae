@@ -47,11 +47,11 @@ arr = np.ones((20))*-1
 while count != 1000:
     action = policy(obs['observation'], obs['desired_goal'])
     #Generate random number between -1 and 1 of size 20
-    arr = np.ones(20)
-    # arr[15] = 1
-    # arr[19] = 1
-    arr[3]= -1
-    arr[4]=-1
+    # arr = np.random.uniform(-1, 1, 20)
+    arr[3] += 0.01
+    arr[4] += 0.01
+    for i in maps:
+        arr[i] = 0
     obs, reward, done, info = env.step(arr)
     
     # Render the environment in mode rgb_array
