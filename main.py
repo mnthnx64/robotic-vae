@@ -8,6 +8,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 from models import VAE
 from torchvision.utils import save_image
+from classifier import Classifier
 
 BATCH_SIZE = 100
 DATASET_DIR = './dataset/mnist_data/'
@@ -67,6 +68,10 @@ def train(epoch):
         optimizer.zero_grad()
         
         recon_batch, mu, log_var = vae(data)
+        print(recon_batch.size())
+        print(mu.size())
+        print(log_var.size())
+        exit()
         loss = loss_function(recon_batch, data, mu, log_var)
         
         loss.backward()
@@ -103,6 +108,43 @@ def test():
     test_loss /= len(test_loader.dataset)
     print('====> Test set loss: {:.4f}'.format(test_loss))
 
-for epoch in range(1, 201):
-    train(epoch)
-    test()
+# for epoch in range(1, 100):
+#     train(epoch)
+#     test()
+
+
+
+nn = Classifier(13,5)
+# nn.train(X, y)
+# nn.test(X_test , y_test)
+
+
+# first_batch_x, first_batch_y = next(iter(train_loader))
+
+for epoch in range(1, 100):
+
+    print(epoch)
+
+    for batch_idx, (data, y) in enumerate(train_loader):
+        data = data
+        optimizer.zero_grad()
+
+        
+        z = vae.encode_classifier(data)
+
+        print(z.size())
+        
+        nn.train(z, y);
+
+
+count = 0
+
+for batch_idx, (data, y) in enumerate(test_loader):
+    print(data.size())
+    z = vae.encode_classifier(data)
+    nn.test(z, y)
+    count += 1
+print("Final Accuracy: ")
+print(nn.accuracy / count)
+
+    
