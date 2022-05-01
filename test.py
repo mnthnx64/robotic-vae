@@ -1,5 +1,5 @@
 import torch
-from models import VAE
+from models import VAE, Classifier
 from torchvision.utils import save_image
 import gym
 from time import time, sleep
@@ -8,7 +8,8 @@ import numpy as np
 # Load the trained encoder
 vae = VAE(x_dim=784, h_dim1= 512, h_dim2=256, z_dim=13)
 vae.load_state_dict(torch.load('runs/train/model.pth'))
-
+cl = Classifier(13, 5)
+cl.load_state_dict(torch.load('runs/train/modelClassifier.pth'))
 
 env = gym.make('HandReach-v0')
 obs = env.reset()
@@ -17,7 +18,7 @@ maps = [0, 1, 2, 5, 8, 11, 12]
 
 # Draw the number
 with torch.no_grad():
-    n = 10
+    n = 1
     z = torch.randn(n, 13)
     # z = torch.ones(n, 13)*-1
     # loop through z and change the nth element to 1
@@ -32,6 +33,8 @@ with torch.no_grad():
     # z = torch.ones(1, 13)
     print(z)
     sample = vae.decoder(z)
+    out = cl(z)
+    print(torch.argmax(out, dim=1))
     save_image(sample.view(n, 1, 28, 28), 'gen.png')
     arr = z.cpu().numpy().tolist()
     for ar in arr:
