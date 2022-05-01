@@ -50,6 +50,11 @@ class VAE(nn.Module):
         z = self.sampling(mu, log_var)
         return self.decoder(z), mu, log_var
 
+    def encode_classifier(self, x):
+        mu, log_var = self.encoder(x.view(-1, 784))
+        z = self.sampling(mu, log_var)
+        return z
+
 
 class Classifier(nn.Module):
     def __init__(self, x_dim, h_dim1, h_dim2, z_dim):
