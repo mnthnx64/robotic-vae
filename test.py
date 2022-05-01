@@ -44,5 +44,8 @@ with torch.no_grad():
             # arr[19] = np.random.random()
             obs, reward, done, info = env.step(ar)
             env.render()
+            env.viewer.cam.elevation = 90
+            env.viewer.cam.azimuth = 90
+            env.viewer.cam.distance = 0.7
             count += 1
 

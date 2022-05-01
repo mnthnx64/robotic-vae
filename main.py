@@ -12,18 +12,38 @@ from torchvision.utils import save_image
 BATCH_SIZE = 100
 DATASET_DIR = './dataset/mnist_data/'
 SAVE_DIR = 'runs/train/'
-RESUME = True
+RESUME = False
 
 if os.path.exists(SAVE_DIR) and not RESUME: shutil.rmtree(SAVE_DIR)
 if not RESUME: os.makedirs(SAVE_DIR)
 
 # MNIST Dataset
+# train_dataset = datasets.MNIST(root=DATASET_DIR, train=True, transform=transforms.ToTensor(), download=True)
+# test_dataset = datasets.MNIST(root=DATASET_DIR, train=False, transform=transforms.ToTensor(), download=False)
+# dataset = datasets.MNIST(root='./data')
+
+
 train_dataset = datasets.MNIST(root=DATASET_DIR, train=True, transform=transforms.ToTensor(), download=True)
 test_dataset = datasets.MNIST(root=DATASET_DIR, train=False, transform=transforms.ToTensor(), download=False)
+train_dataset = [train_dataset[i] for i in range(len(train_dataset)) if train_dataset[i][1] < 5]
+test_dataset = [test_dataset[i] for i in range(len(test_dataset)) if test_dataset[i][1] < 5]
+    # return train_dataset, test_dataset
+
+# idx = train_dataset.train_labels <= 5
+
+# train_dataset.train_labels = train_dataset.train_labels[idx]
+# train_dataset.train_data = train_dataset.train_data[idx]
+
+# idx = test_dataset.test_labels <= 5
+# test_dataset.test_labels = test_dataset.test_labels[idx]
+# test_dataset.test_data = test_dataset.test_data[idx]
+# test_dataset.train_labels = test_dataset.train_labels[idx]
+# test_dataset.train_data = test_dataset.train_data[idx]
 
 # Data Loader (Input Pipeline)
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=BATCH_SIZE, shuffle=True)
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=BATCH_SIZE, shuffle=False)
+
 
 
 vae = VAE(x_dim=784, h_dim1= 512, h_dim2=256, z_dim=13)

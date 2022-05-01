@@ -18,6 +18,11 @@ class VAE(nn.Module):
         self.fc2 = nn.Linear(h_dim1, h_dim2)
         self.fc31 = nn.Linear(h_dim2, z_dim)
         self.fc32 = nn.Linear(h_dim2, z_dim)
+        
+        # Clip output of fc32 between limits -1 to 1
+        self.fc32.weight.data.uniform_(-1, 1)
+
+        # self.activation = 
         # decoder part
         self.fc4 = nn.Linear(z_dim, h_dim2)
         self.fc5 = nn.Linear(h_dim2, h_dim1)
@@ -26,7 +31,9 @@ class VAE(nn.Module):
     def encoder(self, x):
         h = F.relu(self.fc1(x))
         h = F.relu(self.fc2(h))
-        return self.fc31(h), self.fc32(h) # mu, log_var
+        h1 = self.fc31(h)
+        h2 = self.fc32(h)
+        return h1.clamp(-1,1), h2.clamp(-1,1) # mu, log_var
     
     def sampling(self, mu, log_var):
         std = torch.exp(0.5*log_var)

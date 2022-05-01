@@ -1,6 +1,9 @@
 import gym
 from time import time, sleep
 import numpy as np
+import matplotlib.pyplot as plt
+import glfw
+import imageio
 
 env = gym.make('HandReach-v0')
 obs = env.reset()
@@ -37,24 +40,31 @@ maps = [0, 1, 2, 5, 8, 11, 12, 17, 18, 19]
 arr = np.ones((20)) * -1
 count = 0
 
-while count != 100:
+arr = np.ones((20))*-1
+# arr[3] = 0
+# arr[4] = 0
+
+while count != 1000:
     action = policy(obs['observation'], obs['desired_goal'])
     #Generate random number between -1 and 1 of size 20
-    arr = np.random.uniform(-1, 1, 20)
-    # arr[15] = 1
-    # arr[19] = 1
+    # arr = np.random.uniform(-1, 1, 20)
+    arr[3] += 0.01
+    arr[4] += 0.01
     for i in maps:
         arr[i] = 0
     obs, reward, done, info = env.step(arr)
+    
+    # Render the environment in mode rgb_array
+    # Save the rendered environment to a file
+    # env.env.render(mode='rgb_array')
+
+
     env.render()
-    # If we want, we can substitute a goal here and re-compute
-    # the reward. For instance, we can just pretend that the desired
-    # goal was what we achieved all along.
-    substitute_goal = obs['achieved_goal'].copy()
-    substitute_reward = env.compute_reward(
-        obs['achieved_goal'], substitute_goal, info)
-    # print('reward is {}, substitute_reward is {}'.format(
-    #     reward, substitute_reward))
+    # env.viewer.cam.elevation = 90
+    # env.viewer.cam.azimuth = 90
+    # env.viewer.cam.distance = 0.7
+
+    
     count += 1
 
 
